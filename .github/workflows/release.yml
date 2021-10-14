@@ -1,0 +1,23 @@
+# 工作流名称
+name: Release
+
+# 触发工作流程的事件
+on:
+  push:
+    tags: [ v* ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body: "![二维码](https://cdn.jsdelivr.net/gh/iChengbo/action-test/qrcode.png)"
+          files: |
+            index.js
+            qrcode.png
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
