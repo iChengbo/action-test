@@ -50,11 +50,20 @@ jobs:
           name: main
           path: ${{ github.workspace }}/main.js
 
+      # - name: Upload release assets
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     artifacts: "main.js" # 不同的文件名
+      #     body: |
+      #       ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }})
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ steps.vars.outputs.tag }}
+
       - name: Upload release assets
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          artifacts: "main.js" # 不同的文件名
-          body: |
-            ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }})
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.vars.outputs.tag }}
+          files: |
+            main.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
