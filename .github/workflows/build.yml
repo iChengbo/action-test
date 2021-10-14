@@ -29,11 +29,11 @@ jobs:
         with:
           text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/index.js
 
-      - name: Genarate QrCode package
+      - name: Genarate QrCode main
         uses: iChengbo/generate-qrcode@v0.2.0
         id: getQrcode2
         with:
-          text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/package.json
+          text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/main.js
 
       - name: Config git
         run: git config --global user.email "name@gmail.com" && git config --global user.name "name"
