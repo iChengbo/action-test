@@ -5,7 +5,7 @@ on:
     types:
       - completed
 env:
-  TAG_NAME: v1.0.0-beta.25
+  TAG_NAME: v1.0.0-beta.26
 
 jobs:
   release:
@@ -55,23 +55,25 @@ jobs:
           git tag ${{ steps.vars.outputs.tag }}
           git push origin ${{ steps.vars.outputs.tag }}
 
+      # - name: Upload release assets
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     artifacts: "index.js, main.js"
+      #     body: |
+      #       ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
+      #       ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     tag: ${{ steps.vars.outputs.tag }}
+
       - name: Upload release assets
-        uses: ncipollo/release-action@v1
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
         with:
-          artifacts: "index.js, main.js"
           body: |
             ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
             ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.vars.outputs.tag }}
-
-      # - name: Upload release assets
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     body: "![二维码](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }})"
-      #     files: |
-      #       index.js
-      #       ${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            index.js
+            main.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
