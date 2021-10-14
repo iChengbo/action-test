@@ -5,7 +5,7 @@ on: # rebuild any PRs and main branch changes
     branches:
       - main
 env:
-  TAG_NAME: v1.0.0-beta.2
+  TAG_NAME: v1.0.0-beta.4
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -37,13 +37,15 @@ jobs:
       - name: Commit changed files
         run: git commit -m "update by github actions"
       - name: Tag
-        run: git tag ${{ env.TAG_NAME }}
-      - name: Push code
-        run: git push origin ${{ env.TAG_NAME }}
+        run: |
+          git tag ${{ env.TAG_NAME }}
+          git push origin ${{ env.TAG_NAME }}
+          echo ${{ env.TAG_NAME }}
       - name: Upload release assets
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
-        with: 
+        with:
+          body: "![二维码](https://cdn.jsdelivr.net/gh/iChengbo/action-test/qrcode.png)"
           files: |
             index.js
             qrcode.png
