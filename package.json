@@ -1,0 +1,20 @@
+{
+  "name": "action-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc ./index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iChengbo/action-test.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iChengbo/action-test/issues"
+  },
+  "homepage": "https://github.com/iChengbo/action-test#readme"
+}
