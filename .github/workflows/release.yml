@@ -1,69 +1,77 @@
-name: 'Release'
-on:
-  workflow_run:
-    workflows:
-      - Build
-    types:
-      - completed
+# name: 'Release'
+# on:
+#   workflow_run:
+#     workflows:
+#       - Build
+#     types:
+#       - completed
 
-jobs:
-  release:
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.event.workflow_run.head_branch }}
+# jobs:
+#   release:
+#     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v2
+#         with:
+#           fetch-depth: 0
+#           # ref: ${{ github.event.workflow_run.head_branch }}
 
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF:10}
+#       - name: Config git
+#         run: git config --global user.email "name@gmail.com" && git config --global user.name "name"
 
-      - name: Genarate QrCode index
-        uses: iChengbo/generate-qrcode@v0.2.0
-        id: getQrcode1
-        with:
-          text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/index.js
+#       - name: Info
+#         run: |
+#           git tag
+#           echo ${{ github.ref }}
 
-      - name: Genarate QrCode package
-        uses: iChengbo/generate-qrcode@v0.2.0
-        id: getQrcode2
-        with:
-          text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/package.json
+#       - name: Set output
+#         id: vars
+#         run: echo ::set-output name=tag::${GITHUB_REF:10}
 
-      - name: Config git
-        run: git config --global user.email "name@gmail.com" && git config --global user.name "name"
+#       - name: Genarate QrCode index
+#         uses: iChengbo/generate-qrcode@v0.2.0
+#         id: getQrcode1
+#         with:
+#           text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/index.js
 
-      - name: Stage & commit changed files
-        run: |
-          echo ${{ steps.vars.outputs.tag }}
-          git tag -d ${{ steps.vars.outputs.tag }}
-          git push origin :refs/tags/${{ steps.vars.outputs.tag }}
-          git add .
-          git commit -m "update by github actions"
+#       - name: Genarate QrCode package
+#         uses: iChengbo/generate-qrcode@v0.2.0
+#         id: getQrcode2
+#         with:
+#           text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/package.json
 
-      - name: Tag
-        run: |
-          git tag ${{ steps.vars.outputs.tag }}
-          git push origin ${{ steps.vars.outputs.tag }}
 
-      - name: Upload release assets
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "index.js"
-          body: |
-            ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
-            ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.vars.outputs.tag }}
 
-      # - name: Upload release assets
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     body: "![二维码](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }})"
-      #     files: |
-      #       index.js
-      #       ${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }}
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Stage & commit changed files
+#         run: |
+#           echo ${{ steps.vars.outputs.tag }}
+#           git tag -d ${{ steps.vars.outputs.tag }}
+#           git push origin :refs/tags/${{ steps.vars.outputs.tag }}
+#           git add .
+#           git commit -m "update by github actions"
+
+#       - name: Tag
+#         run: |
+#           git tag ${{ steps.vars.outputs.tag }}
+#           git push origin ${{ steps.vars.outputs.tag }}
+
+#       - name: Upload release assets
+#         uses: ncipollo/release-action@v1
+#         with:
+#           artifacts: "index.js"
+#           body: |
+#             ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
+#             ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           tag: ${{ steps.vars.outputs.tag }}
+
+#       # - name: Upload release assets
+#       #   uses: softprops/action-gh-release@v1
+#       #   if: startsWith(github.ref, 'refs/tags/')
+#       #   with:
+#       #     body: "![二维码](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }})"
+#       #     files: |
+#       #       index.js
+#       #       ${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }}
+#       #   env:
+#       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
