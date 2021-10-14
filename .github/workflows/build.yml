@@ -1,4 +1,4 @@
-name: 'Build'
+name: 'Build and Release'
 on:
   push:
     tags:
@@ -54,7 +54,7 @@ jobs:
       - name: Upload release assets
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist/index.js,index.js"
+          artifacts: "index.js,main.js"
           body: |
             ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
             ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
