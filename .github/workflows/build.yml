@@ -5,7 +5,7 @@ on:
     branches:
       - main
 env:
-  TAG_NAME: v1.0.0-beta.16
+  TAG_NAME: v1.0.0-beta.17
 
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
         with:
           text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/index.js
 
-      - name: Genarate QrCode index
+      - name: Genarate QrCode package
         uses: iChengbo/generate-qrcode@v0.2.0
         id: getQrcode2
         with:
@@ -39,15 +39,14 @@ jobs:
         run: |
           git tag ${{ env.TAG_NAME }}
           git push origin ${{ env.TAG_NAME }}
-          echo ${{ env.TAG_NAME }}
-          echo https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }}
-          echo https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }}
 
       - name: Upload release assets
         uses: ncipollo/release-action@v1
         with:
           # artifacts: "index.js,${{ steps.getQRCode.outputs.QR_CODE_PNG_NAME }}"
-          body: "![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})\n![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})"
+          body: |
+            ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
+            ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ env.TAG_NAME }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ env.TAG_NAME }}
 
