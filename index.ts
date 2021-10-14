@@ -2,7 +2,7 @@
  * @Author: iChengbo
  * @Date: 2021-10-14 10:22:55
  * @LastEditors: iChengbo
- * @LastEditTime: 2021-10-14 17:15:43
+ * @LastEditTime: 2021-10-14 17:31:33
  * @FilePath: /action-test/index.ts
  */
 
@@ -11,7 +11,7 @@ const getCurrent = () => {
 }
 
 const sayCurrentVersion = () => {
-    console.log('v1.0.0-beta19')
+    console.log('v1.0.0-beta.20')
 }
 
 const sayHello = (name: string) => {
