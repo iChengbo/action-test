@@ -1,6 +1,6 @@
 {
   "name": "action-test",
-  "version": "1.0.0",
+  "version": "v1.0.0-beta.16",
   "description": "",
   "main": "index.js",
   "scripts": {
