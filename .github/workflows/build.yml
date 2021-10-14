@@ -10,10 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          npm install
+      # - run: |
+      #     npm install
       - run: |
           npm run build
       - name: Run a one-line script
         run: echo Hello, github action!
-    
+      - name: Config git
+        run: git config --global user.email "name@gmail.com" && git config --global user.name "name"
+      - name: Create branch
+        run: git checkout -b v1.0.0
+      - name: Stage changed files
+        run: git add .
+      - name: Commit changed files
+        run: git commit -m "update by github actions"
+      - name: Push code
+        run: git push origin v1.0.0
+
+
