@@ -1,0 +1,56 @@
+name: 'Build and Release'
+on:
+  push:
+    # tags:
+    #   - v*
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm run build  # 打包1
+
+      - name: Save products
+        uses: actions/upload-artifact@v2
+        with:
+          name: index
+          path: ${{ github.workspace }}/index.js
+
+
+  build2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm run build2  # 打包2
+          
+      - name: Save products
+        uses: actions/upload-artifact@v2
+        with:
+          name: main
+          path: ${{ github.workspace }}/main.js
+
+
+  release:
+    needs: [build1, build2]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download products index
+        uses: actions/download-artifact@v2
+        with:
+          name: index
+
+      - name: Download products main
+        uses: actions/download-artifact@v2
+        with:
+          name: main
+
+      - name: Display structure of downloaded files
+        run: ls -R

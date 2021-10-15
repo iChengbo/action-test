@@ -13,12 +13,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: actions/download-artifact@v2
-        with:
-          name: index.js
+        # with:
+        #   name: index.js
 
-      - uses: actions/download-artifact@v2
-        with:
-          name: main.js
+      # - uses: actions/download-artifact@v2
+      #   with:
+      #     name: main.js
 
       - name: Display structure of downloaded files
         run: ls -R
