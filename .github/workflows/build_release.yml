@@ -103,7 +103,9 @@ jobs:
         with:
           artifacts: "index.js, main.js"
           body: |
-            ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }})
-            ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }})
+            |      |      |
+            | :--: | :--: |
+            |   build1   |   build2   |
+            | ![二维码1](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode1.outputs.QR_CODE_PNG_NAME }}) | ![二维码2](https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/${{ steps.getQRCode2.outputs.QR_CODE_PNG_NAME }}) |
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.vars.outputs.tag }}
