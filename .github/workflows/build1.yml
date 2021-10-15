@@ -18,33 +18,33 @@ jobs:
       - run: |
           npm run build  # 打包1
 
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF:10}
+      # - name: Set output
+      #   id: vars
+      #   run: echo ::set-output name=tag::${GITHUB_REF:10}
 
-      - name: Genarate QrCode index
-        uses: iChengbo/generate-qrcode@v0.2.0
-        id: getQrcode
-        with:
-          text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/index.js
+      # - name: Genarate QrCode index
+      #   uses: iChengbo/generate-qrcode@v0.2.0
+      #   id: getQrcode
+      #   with:
+      #     text: https://cdn.jsdelivr.net/gh/iChengbo/action-test@${{ steps.vars.outputs.tag }}/index.js
 
-      - name: Config git
-        run: git config --global user.email "name@gmail.com" && git config --global user.name "name"
+      # - name: Config git
+      #   run: git config --global user.email "name@gmail.com" && git config --global user.name "name"
 
-      - name: Stage & commit changed files
-        run: |
-          echo ${{ steps.vars.outputs.tag }}
-          git tag -d ${{ steps.vars.outputs.tag }}
-          git push origin :refs/tags/${{ steps.vars.outputs.tag }}
-          git add .
-          git commit -m "update by github actions"
+      # - name: Stage & commit changed files
+      #   run: |
+      #     echo ${{ steps.vars.outputs.tag }}
+      #     git tag -d ${{ steps.vars.outputs.tag }}
+      #     git push origin :refs/tags/${{ steps.vars.outputs.tag }}
+      #     git add .
+      #     git commit -m "update by github actions"
 
-      - name: Tag
-        run: |
-          git tag ${{ steps.vars.outputs.tag }}
-          git push origin ${{ steps.vars.outputs.tag }}
+      # - name: Tag
+      #   run: |
+      #     git tag ${{ steps.vars.outputs.tag }}
+      #     git push origin ${{ steps.vars.outputs.tag }}
 
-      - name: Upload Android Products
+      - name: Upload Index Products
         uses: actions/upload-artifact@v2
         with:
           name: index
@@ -59,11 +59,11 @@ jobs:
       #     token: ${{ secrets.GITHUB_TOKEN }}
       #     tag: ${{ steps.vars.outputs.tag }}
 
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            index.js
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Upload release assets
+      #   uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     files: |
+      #       index.js
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
