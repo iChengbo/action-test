@@ -1,0 +1,28 @@
+name: 'Build1'
+on:
+  push:
+    tags: [ d* ]
+  pull_request:
+    branches: [ main ]
+
+# env:
+#   TAG_NAME: ${{ github.ref }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          npm run build  # 打包1
+
+      - name: Display tag Info
+        run: |
+          git tag
+          echo ${{ github.ref }}
+
+      - name: Upload Index Products
+        uses: actions/upload-artifact@v2
+        with:
+          name: index
+          path: ${{ github.workspace }}/index.js
