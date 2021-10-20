@@ -3,6 +3,7 @@ on:
   workflow_run:
     workflows: [ Build1, Build2 ]
     branches: [ main ]
+    tags: [ d* ]
     types: [ completed ]
 
 jobs:
